@@ -12,7 +12,7 @@ let tasks = [
       },
       {
         status: constants.STATUSES.COMPLETED,
-        name: 'PREPARE'
+        name: 'Prepare'
       },
     ];
 

@@ -1,5 +1,5 @@
 <tr>
-    <td ng-repeat="status in statuses">
-      <pre ng-if="task.status === status">{{ task.name | json }}</pre>
+    <td class="border-sides" ng-repeat="status in statuses">
+      <task ng-if="task.status === status"></task>
     </td>
 </tr>
