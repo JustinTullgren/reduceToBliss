@@ -3,10 +3,6 @@
     <tr>
       <th ng-repeat="status in statuses">{{ status }}</th>
     </tr>
-    <tr ng-repeat="task in tasks">
-      <td ng-repeat="status in $parent.statuses">
-        <pre ng-if="task.status === status">{{ task.name | json }}</pre>
-      </td>
-    </tr>
+    <tr ng-repeat="task in tasks" swim-lane></tr>
   </table>
 </div>

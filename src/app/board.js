@@ -3,24 +3,12 @@
 const template = require('./board.html');
 const restrict = 'E';
 
-export const board = (constants) =>({
+export const board = (constants, tasksRepository) =>({
   template,
   restrict,
   link: (scope, elem, attrs, controller) => {
+    console.log(tasksRepository.tasks);
     scope.statuses = constants.STATUSES;
-    scope.tasks = [
-      {
-        status: constants.STATUSES.READY,
-        name: 'Add task'
-      },
-      {
-        status: constants.STATUSES.IN_PROGRESS,
-        name: 'Clean Code'
-      },
-      {
-        status: constants.STATUSES.COMPLETED,
-        name: 'PREPARE'
-      },
-    ]
+    scope.tasks = tasksRepository.tasks;
   }
 });
