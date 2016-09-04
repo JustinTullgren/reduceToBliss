@@ -1,7 +1,7 @@
 <div class="board-container">
   <table>
     <tr>
-      <th class="border-sides" ng-repeat="status in statuses">{{ status }}</th>
+      <th ng-repeat="status in statuses">{{ status }}</th>
     </tr>
     <tr ng-repeat="task in tasks" swim-lane></tr>
   </table>

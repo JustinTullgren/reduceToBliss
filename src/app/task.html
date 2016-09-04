@@ -1,3 +1,12 @@
 <div class="task-container">
   <p>{{ task.name }}</p>
+  <button
+    ng-if="task.status === 'READY'"
+    ng-click="start(task)">
+    Start
+  </button>
+  <button ng-click="complete(task)"
+          ng-if="task.status === 'IN_PROGRESS'">
+   Complete
+  </button>
 </div>
