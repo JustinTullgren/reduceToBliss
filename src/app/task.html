@@ -9,4 +9,9 @@
           ng-if="task.status === 'IN_PROGRESS'">
    Complete
   </button>
+  <div>
+    <button ng-if="!showRename" ng-click="rename()">Rename</button>
+    <input ng-if="showRename" type="text" ng-model="my.newName">
+    <button ng-if="showRename" ng-click="update(task)">Update</button>
+  </div>
 </div>

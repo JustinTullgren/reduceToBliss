@@ -21,14 +21,13 @@ export const board = ($timeout, constants, tasksRepository) => ({
       scope.statuses = constants.STATUSES;
     };
 
-    const applyFilters = () => {
-      scope.$emit('filter', {
-        ready: scope.filterReady,
-        inProgress: scope.filterInProgress,
-        completed: scope.filterCompleted
-      });
+    const resetFilters = () => {
+      scope.filterReady = false;
+      scope.filterInProgress = false;
+      scope.filterCompleted = false;
     };
-    scope.$watchCollection('tasks', applyFilters);
+
+    scope.$watch('tasks', resetFilters, true);
 
     init();
   }
