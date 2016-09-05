@@ -4,6 +4,5 @@ const template = require('./swimLane.html');
 
 export default () => ({
   restrict,
-  template,
-  link: function () { }
+  template
 });
