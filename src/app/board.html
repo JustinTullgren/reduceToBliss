@@ -1,4 +1,17 @@
 <div class="board-container">
+  <button ng-click="getTasks()">Get Tasks</button>
+  <label>
+    <input type="checkbox" ng-model="filterCompleted" value="false">
+    Filter completed
+  </label>
+  <label>
+    <input type="checkbox" ng-model="filterInProgress" value="false">
+    Filter in progress
+  </label>
+  <label>
+    <input type="checkbox" ng-model="filterReady" value="false">
+    Filter Ready
+  </label>
   <table>
     <tr>
       <th ng-repeat="status in statuses">{{ status }}</th>

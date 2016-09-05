@@ -1,5 +1,5 @@
 <tr>
     <td ng-repeat="status in statuses">
-      <task ng-if="task.status === status"></task>
+      <task ng-if="task.status === status && !filterTask(task)"></task>
     </td>
 </tr>
