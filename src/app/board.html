@@ -1,21 +1,21 @@
 <div class="board-container">
-  <button ng-click="getTasks()">Get Tasks</button>
+  <button ng-click="board.getTasks()">Get Tasks</button>
   <label>
-    <input type="checkbox" ng-model="filterCompleted" value="false">
+    <input type="checkbox" ng-model="board.filters.filterCompleted" value="false">
     Filter completed
   </label>
   <label>
-    <input type="checkbox" ng-model="filterInProgress" value="false">
+    <input type="checkbox" ng-model="board.filters.filterInProgress" value="false">
     Filter in progress
   </label>
   <label>
-    <input type="checkbox" ng-model="filterReady" value="false">
+    <input type="checkbox" ng-model="board.filters.filterReady" value="false">
     Filter Ready
   </label>
   <table>
     <tr>
-      <th ng-repeat="status in statuses">{{ status }}</th>
+      <th ng-repeat="status in board.statuses">{{ status }}</th>
     </tr>
-    <tr ng-repeat="task in tasks" swim-lane></tr>
+    <tr ng-repeat="task in board.tasks" swim-lane="task" swim-lane-filters="board.filters"></tr>
   </table>
 </div>

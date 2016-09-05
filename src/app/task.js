@@ -2,33 +2,39 @@
 
 const template = require('./task.html');
 const restrict = 'E';
-const getLink = constants => (scope => {
-  scope.showRename = false;
+const controller = 'TaskController as task';
+const scope = {
+  item: '=taskItem'
+};
+const bindToController = true;
 
-  scope.my = {
-    newName: ''
-  };
+export function taskController(constants) {
+  this.showRename = false;
 
-  scope.start = task => {
+  this.newName = null;
+
+  this.start = task => {
     task.status = constants.STATUSES.IN_PROGRESS;
   };
 
-  scope.complete = task => {
+  this.complete = task => {
     task.status = constants.STATUSES.COMPLETED;
   };
 
-  scope.rename = () => {
-    scope.showRename = true;
+  this.rename = () => {
+    this.showRename = true;
   };
 
-  scope.update = task => {
-    task.name = scope.my.newName;
-    scope.showRename = false;
+  this.update = (task, name) => {
+    task.name = name;
+    this.showRename = false;
   };
-});
+}
 
-export const task = constants => ({
+export const task = () => ({
   template,
   restrict,
-  link: getLink(constants)
+  controller,
+  scope,
+  bindToController
 });

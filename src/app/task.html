@@ -1,17 +1,18 @@
 <div class="task-container">
-  <p>{{ task.name }}</p>
+  <p>{{ task.item.name }}</p>
   <button
-    ng-if="task.status === 'READY'"
-    ng-click="start(task)">
+    ng-if="task.item.status === 'READY'"
+    ng-click="task.start(task.item)">
     Start
   </button>
-  <button ng-click="complete(task)"
-          ng-if="task.status === 'IN_PROGRESS'">
+  <button
+    ng-click="task.complete(task.item)"
+    ng-if="task.item.status === 'IN_PROGRESS'">
    Complete
   </button>
   <div>
-    <button ng-if="!showRename" ng-click="rename()">Rename</button>
-    <input ng-if="showRename" type="text" ng-model="my.newName">
-    <button ng-if="showRename" ng-click="update(task)">Update</button>
+    <button ng-if="!task.showRename" ng-click="task.rename()">Rename</button>
+    <input ng-if="task.showRename" type="text" ng-model="task.newName">
+    <button ng-if="task.showRename" ng-click="task.update(task.item, task.newName)">Update</button>
   </div>
 </div>
