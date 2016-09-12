@@ -12,7 +12,7 @@
   </button>
   <div>
     <button ng-if="!task.showRename" ng-click="task.rename()">Rename</button>
-    <input ng-if="task.showRename" type="text" ng-model="task.newName">
-    <button ng-if="task.showRename" ng-click="task.update(task.item, task.newName)">Update</button>
+    <input ng-if="task.showRename" type="text" ng-model="task.item.name">
+    <button ng-if="task.showRename" ng-click="task.update(task.item)">Update</button>
   </div>
 </div>

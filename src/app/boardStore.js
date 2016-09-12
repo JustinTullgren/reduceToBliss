@@ -20,8 +20,22 @@ const emitChange = () => {
 const onChange =
   action => {
     switch (action.type) {
+      case 'updateTask':
+      case 'completeTask':
+      case 'startTask':
       case 'fetchTasks':
         isFetching = true;
+        emitChange();
+        break;
+      case 'receiveTask':
+        tasks = tasks.reduce((result, task) => {
+          if (task.id === action.payload.id) {
+            return result.concat(action.payload);
+          }
+
+          return result.concat(task);
+        }, []);
+        isFetching = false;
         emitChange();
         break;
       case 'receiveTasks':

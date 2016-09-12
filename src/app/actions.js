@@ -15,6 +15,65 @@ const getFetchTasks = repository => (
   }
 );
 
+const getStartTask = repository => (
+  id => {
+    return dispatch => {
+      dispatch({
+        type: 'startTask',
+        payload: {
+          id
+        }
+      });
+
+      return repository.startTask(id)
+        .then(task => {
+          dispatch(receiveTask(task));
+        });
+    };
+  }
+);
+
+const getCompleteTask = repository => (
+  id => {
+    return dispatch => {
+      dispatch({
+        type: 'completeTask',
+        payload: {
+          id
+        }
+      });
+
+      return repository.completeTask(id)
+        .then(task => {
+          dispatch(receiveTask(task));
+        });
+    };
+  }
+);
+
+const getUpdateTask = repository => (
+  task => {
+    return dispatch => {
+      dispatch({
+        type: 'updateTask',
+        payload: {
+          task
+        }
+      });
+
+      return repository.updateTask(task)
+        .then(task => {
+          dispatch(receiveTask(task));
+        });
+    };
+  }
+);
+
+const receiveTask = payload => ({
+  type: 'receiveTask',
+  payload
+});
+
 const receiveTasks = payload => ({
   type: 'receiveTasks',
   payload
@@ -42,5 +101,8 @@ export default taskRepository => ({
   filterReady,
   filterCompleted,
   filterInProgress,
-  resetFilters
+  resetFilters,
+  startTask: getStartTask(taskRepository),
+  completeTask: getCompleteTask(taskRepository),
+  updateTask: getUpdateTask(taskRepository)
 });

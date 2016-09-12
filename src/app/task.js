@@ -8,25 +8,19 @@ const scope = {
 };
 const bindToController = true;
 
-export function taskController(constants) {
+export function taskController(dispatcher, actions) {
   this.showRename = false;
-
-  this.newName = null;
-
-  this.start = task => {
-    task.status = constants.STATUSES.IN_PROGRESS;
-  };
-
-  this.complete = task => {
-    task.status = constants.STATUSES.COMPLETED;
-  };
 
   this.rename = () => {
     this.showRename = true;
   };
 
-  this.update = (task, name) => {
-    task.name = name;
+  this.start = task => dispatcher.dispatch(actions.startTask(task.id));
+
+  this.complete = task => dispatcher.dispatch(actions.completeTask(task.id));
+
+  this.update = task => {
+    dispatcher.dispatch(actions.updateTask(task));
     this.showRename = false;
   };
 }
