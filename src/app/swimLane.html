@@ -1,5 +1,3 @@
-<tr>
-    <td ng-repeat="status in swimLane.statuses">
-      <task task-item="swimLane.task" ng-if="swimLane.task.status === status && !swimLane.filterTask(swimLane.task)"></task>
-    </td>
-</tr>
+<td ng-repeat="status in swimLane.statuses">
+  <task task-item="swimLane.task" ng-if="!swimLane.differentStatus(status) && !swimLane.hideTask"></task>
+</td>

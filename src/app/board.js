@@ -4,35 +4,40 @@ const template = require('./board.html');
 const restrict = 'E';
 const controller = 'BoardController as board';
 
-const link = (scope, element, attrs, controller) => {
-  scope.$watch(() => controller.tasks, controller.resetFilters, true);
-};
-
-export function boardController($timeout, tasksRepository, constants) {
+export function boardController(boardStore, dispatcher, actions, constants) {
   this.statuses = constants.STATUSES;
-  this.tasks = null;
-  this.filters = {
-    filterReady: false,
-    filterInProgress: false,
-    filterCompleted: false
+
+  this.filterReadyTasks = () => {
+    dispatcher.dispatch(actions.filterReady());
   };
 
-  this.resetFilters = () => {
-    this.filters.filterReady = false;
-    this.filters.filterInProgress = false;
-    this.filters.filterCompleted = false;
+  this.filterInProgressTasks = () => {
+    dispatcher.dispatch(actions.filterInProgress());
   };
 
-  this.getTasks = () => {
-    $timeout(() => {
-      this.tasks = tasksRepository.tasks;
-    }, 500);
+  this.filterCompletedTasks = () => {
+    dispatcher.dispatch(actions.filterCompleted());
   };
+
+  this.fetchTasks = () => {
+    dispatcher.dispatch(actions.fetchTasks());
+  };
+
+  boardStore.subscribe(() => {
+    this.isLoading = boardStore.getIsFetching();
+    this.filterCompleted = boardStore.getFilterCompleted();
+    this.filterInProgress = boardStore.getFilterInProgress();
+    this.filterReady = boardStore.getFilterReady();
+    if (this.isLoading) {
+      this.task = null;
+    } else {
+      this.tasks = boardStore.getTasks();
+    }
+  });
 }
 
 export const board = () => ({
   template,
   restrict,
-  link,
   controller
 });

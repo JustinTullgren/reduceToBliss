@@ -5,18 +5,32 @@ const controller = 'SwimLaneController as swimLane';
 const bindToController = true;
 
 const scope = {
-  filters: '=swimLaneFilters',
   task: '=swimLane'
 };
 
-export function swimLaneController(constants) {
-  this.filterTask = task => {
-    return (task.status === constants.STATUSES.COMPLETED && this.filters.filterCompleted) ||
-    (task.status === constants.STATUSES.IN_PROGRESS && this.filters.filterInProgress) ||
-    (task.status === constants.STATUSES.READY && this.filters.filterReady);
+export function swimLaneController(boardStore, constants) {
+  this.statuses = constants.STATUSES;
+
+  this.differentStatus = status => {
+    return this.task.status !== status;
   };
 
-  this.statuses = constants.STATUSES;
+  boardStore.subscribe(() => {
+    switch (this.task.status) {
+      case constants.STATUSES.READY:
+        this.hideTask = boardStore.getFilterReady();
+        break;
+      case constants.STATUSES.IN_PROGRESS:
+        this.hideTask = boardStore.getFilterInProgress();
+        break;
+      case constants.STATUSES.COMPLETED:
+        this.hideTask = boardStore.getFilterCompleted();
+        break;
+      default:
+        this.hideTask = false;
+        break;
+    }
+  });
 }
 
 export default () => ({

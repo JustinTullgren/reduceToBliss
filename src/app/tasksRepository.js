@@ -16,13 +16,11 @@ const tasks = [
   }
 ];
 
-export default function () {
+export default function ($q, $timeout) {
   this.tasks = tasks;
-  // this is the next stage
-  // this.getTasks = () => tasks.concat();
-  // this.addTask = (task) => tasks = tasks.concat(task);
-  // this.removeTask = (task) => {
-  //   tasks = tasks.filter((t) => t === task);
-  //   return tasks;
-  // }
+  this.getTasks = () => $q(resolve => {
+    $timeout(() => {
+      resolve(tasks.concat());
+    }, 1000, true);
+  });
 }
