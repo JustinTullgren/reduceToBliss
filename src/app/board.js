@@ -4,36 +4,52 @@ const template = require('./board.html');
 const restrict = 'E';
 const controller = 'BoardController as board';
 
-export function boardController(boardStore, dispatcher, actions, constants) {
+export function boardController(store, boardSelectors, actions, constants) {
+  let subscriptions = {};
+
   this.statuses = constants.STATUSES;
 
   this.filterReadyTasks = () => {
-    dispatcher.dispatch(actions.filterReady());
+    store.dispatch(actions.filterReady());
   };
 
   this.filterInProgressTasks = () => {
-    dispatcher.dispatch(actions.filterInProgress());
+    store.dispatch(actions.filterInProgress());
   };
 
   this.filterCompletedTasks = () => {
-    dispatcher.dispatch(actions.filterCompleted());
+    store.dispatch(actions.filterCompleted());
   };
 
   this.fetchTasks = () => {
-    dispatcher.dispatch(actions.fetchTasks());
+    store.dispatch(actions.fetchTasks());
   };
 
-  boardStore.subscribe(() => {
-    this.isLoading = boardStore.getIsFetching();
-    this.filterCompleted = boardStore.getFilterCompleted();
-    this.filterInProgress = boardStore.getFilterInProgress();
-    this.filterReady = boardStore.getFilterReady();
-    if (this.isLoading) {
-      this.task = null;
-    } else {
-      this.tasks = boardStore.getTasks();
-    }
+  subscriptions.isLoading = store.observe(boardSelectors.isFetching, isLoading => {
+    this.isLoading = isLoading;
   });
+
+  subscriptions.filterCompleted = store.observe(boardSelectors.filterCompleted, filter => {
+    this.filterCompleted = filter;
+  });
+
+  subscriptions.filterInProgress = store.observe(boardSelectors.filterInProgress, filter => {
+    this.filterInProgress = filter;
+  });
+
+  subscriptions.filterReady = store.observe(boardSelectors.filterReady, filter => {
+    this.filterReady = filter;
+  });
+
+  subscriptions.tasks = store.observe(boardSelectors.tasks, tasks => {
+    this.tasks = tasks;
+  });
+
+  // Example Code to Unsub
+  this.onDestroy = () => {
+    Object.keys(subscriptions).forEach(unsub => subscriptions[unsub]());
+    subscriptions = null;
+  };
 }
 
 export const board = () => ({

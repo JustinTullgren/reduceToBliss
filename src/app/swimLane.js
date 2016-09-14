@@ -8,27 +8,28 @@ const scope = {
   task: '=swimLane'
 };
 
-export function swimLaneController(boardStore, constants) {
+export function swimLaneController(store, boardSelectors, constants) {
   this.statuses = constants.STATUSES;
 
   this.differentStatus = status => {
     return this.task.status !== status;
   };
 
-  boardStore.subscribe(() => {
-    switch (this.task.status) {
-      case constants.STATUSES.READY:
-        this.hideTask = boardStore.getFilterReady();
-        break;
-      case constants.STATUSES.IN_PROGRESS:
-        this.hideTask = boardStore.getFilterInProgress();
-        break;
-      case constants.STATUSES.COMPLETED:
-        this.hideTask = boardStore.getFilterCompleted();
-        break;
-      default:
-        this.hideTask = false;
-        break;
+  store.observe(boardSelectors.filterReady, filter => {
+    if (this.task.status === constants.STATUSES.READY) {
+      this.hideTask = filter;
+    }
+  });
+
+  store.observe(boardSelectors.filterInProgress, filter => {
+    if (this.task.status === constants.STATUSES.IN_PROGRESS) {
+      this.hideTask = filter;
+    }
+  });
+
+  store.observe(boardSelectors.filterCompleted, filter => {
+    if (this.task.status === constants.STATUSES.COMPLETED) {
+      this.hideTask = filter;
     }
   });
 }

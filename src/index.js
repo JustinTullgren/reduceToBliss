@@ -9,6 +9,8 @@ import constants from './app/constants';
 import dispatcher from './app/dispatcher';
 import boardStore from './app/boardStore';
 import actions from './app/actions';
+import store from './app/store';
+import {boardReducer, boardSelectors} from './app/boardReducer';
 
 import './index.less';
 
@@ -25,4 +27,7 @@ angular
   .directive('task', task)
   .controller('TaskController', taskController)
   .directive('swimLane', swimLane)
-  .controller('SwimLaneController', swimLaneController);
+  .controller('SwimLaneController', swimLaneController)
+  .factory('store', store)
+  .factory('boardReducer', boardReducer)
+  .factory('boardSelectors', boardSelectors);
